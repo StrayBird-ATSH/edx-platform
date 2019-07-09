@@ -89,7 +89,8 @@ class TestSubsectionGating(CourseTestCase):
 
         self.client.ajax_post(
             self.seq2_url,
-            data={'prereqUsageKey': six.text_type(self.seq1.location), 'prereqMinScore': '100', 'prereqMinCompletion': '100'}
+            data={'prereqUsageKey': six.text_type(self.seq1.location), 'prereqMinScore': '100',
+                  'prereqMinCompletion': '100'}
         )
         mock_set_required_content.assert_called_with(
             self.course.id,

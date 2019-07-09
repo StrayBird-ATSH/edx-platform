@@ -159,7 +159,8 @@ class StatusDisplayStrings(object):
     @staticmethod
     def get(val_status):
         """Map a VAL status string to a localized display string"""
-        return _(StatusDisplayStrings._STATUS_MAP.get(val_status, StatusDisplayStrings._UNKNOWN))
+        return _(
+            StatusDisplayStrings._STATUS_MAP.get(val_status, StatusDisplayStrings._UNKNOWN))  # pylint: disable=i18n
 
 
 @expect_json
@@ -207,6 +208,7 @@ def videos_handler(request, course_key_string, edx_video_id=None):
 @login_required
 @require_POST
 def video_images_handler(request, course_key_string, edx_video_id=None):
+    """Function to handle image files"""
 
     # respond with a 404 if image upload is not enabled.
     if not WAFFLE_SWITCHES.is_enabled(VIDEO_IMAGE_UPLOAD_ENABLED):
@@ -268,7 +270,7 @@ def validate_transcript_preferences(provider, cielo24_fidelity, cielo24_turnarou
                     error = u'Unsupported source language {}.'.format(video_source_language)
                     return error, preferences
 
-                if not len(preferred_languages) or not (set(preferred_languages) <= set(supported_languages.keys())):
+                if not preferred_languages or not set(preferred_languages) <= set(supported_languages.keys()):
                     error = u'Invalid languages {}.'.format(preferred_languages)
                     return error, preferences
 
@@ -295,7 +297,7 @@ def validate_transcript_preferences(provider, cielo24_fidelity, cielo24_turnarou
                 return error, preferences
 
             valid_target_languages = valid_translations_map[video_source_language]
-            if not len(preferred_languages) or not (set(preferred_languages) <= set(valid_target_languages)):
+            if not preferred_languages or not set(preferred_languages) <= set(valid_target_languages):
                 error = u'Invalid languages {}.'.format(preferred_languages)
                 return error, preferences
 
@@ -451,10 +453,10 @@ def _get_and_validate_course(course_key_string, user):
     course = get_course_and_check_access(course_key, user)
 
     if (
-            settings.FEATURES["ENABLE_VIDEO_UPLOAD_PIPELINE"] and
-            getattr(settings, "VIDEO_UPLOAD_PIPELINE", None) and
-            course and
-            course.video_pipeline_configured
+        settings.FEATURES["ENABLE_VIDEO_UPLOAD_PIPELINE"] and
+        getattr(settings, "VIDEO_UPLOAD_PIPELINE", None) and
+        course and
+        course.video_pipeline_configured
     ):
         return course
     else:
@@ -560,10 +562,11 @@ def _get_index_videos(course, pagination_conf=None):
                 values[attr] = video[attr]
 
         return values
+
     videos, pagination_context = _get_videos(course, pagination_conf)
     return [
-        _get_values(video) for video in videos
-    ], pagination_context
+               _get_values(video) for video in videos
+           ], pagination_context
 
 
 def get_all_transcript_languages():
@@ -690,13 +693,13 @@ def videos_post(course, request):
     if 'files' not in data:
         error = "Request object is not JSON or does not contain 'files'"
     elif any(
-            'file_name' not in file or 'content_type' not in file
-            for file in data['files']
+        'file_name' not in file or 'content_type' not in file
+        for file in data['files']
     ):
         error = "Request 'files' entry does not contain 'file_name' and 'content_type'"
     elif any(
-            file['content_type'] not in list(VIDEO_SUPPORTED_FILE_FORMATS.values())
-            for file in data['files']
+        file['content_type'] not in list(VIDEO_SUPPORTED_FILE_FORMATS.values())
+        for file in data['files']
     ):
         error = "Request 'files' entry contain unsupported content_type"
 
