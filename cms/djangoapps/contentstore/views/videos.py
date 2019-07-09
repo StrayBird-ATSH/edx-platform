@@ -564,9 +564,7 @@ def _get_index_videos(course, pagination_conf=None):
         return values
 
     videos, pagination_context = _get_videos(course, pagination_conf)
-    return [
-               _get_values(video) for video in videos
-           ], pagination_context
+    return [_get_values(video) for video in videos], pagination_context
 
 
 def get_all_transcript_languages():
