@@ -71,6 +71,7 @@
                             // we can perform variable interpolation using sprintf
                             context: {
                                 fields: fields,
+                                HtmlUtils: HtmlUtils,
                                 currentProvider: this.currentProvider,
                                 syncLearnerProfileData: this.syncLearnerProfileData,
                                 providers: this.providers,
