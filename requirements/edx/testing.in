@@ -37,7 +37,9 @@ pyquery                   # jQuery-like API for retrieving fragments of HTML and
 pysqlite                  # DB-API 2.0 interface for SQLite 3.x (used as the relational database for most tests)
 pytest                    # Testing framework
 pytest-attrib             # Select tests based on attributes
-pytest-cov                # pytest plugin for measuring code coverage.
+git+https://github.com/nedbat/pytest-cov.git@nedbat/cov5-combine#egg=pytest-cov==0.0
+git+https://github.com/nedbat/coverage_pytest_plugin.git@75a4cf064d34d8615cf5aae73d9d800e7474b28a#egg=coverage_pytest_plugin
+pytest-faulthandler<2.0.0   # 2.0.0 is a dummy package, because it's been incorporated into pytest 5.0
 pytest-django             # Django support for pytest
 pytest-randomly           # pytest plugin to randomly order tests
 pytest-xdist              # Parallel execution of tests on multiple CPU cores or hosts
